@@ -9,3 +9,6 @@ A tool that reads data stored under USBSTOR key in the system registry hive, rep
 1. Development and tests were done on Windows 10 only, so it might not work with other Windows profiles.
 2. Data about USB connections can be found in several locations other than USBSTOR. For now, this tool only reads USBSTOR.
 3. The tool uses standard Windows grid from the Windows Forms control suite, so no fancy DevExpress grids or colors (Although might consider using them later).
+
+# Screenshot
+![alt text](https://github.com/karimabisaad/USB-Explorer/blob/master/screenshot.png)
