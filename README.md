@@ -3,6 +3,7 @@ A tool that reads data stored under USBSTOR key in the system registry hive, rep
 
 # Features
 1. Provides serial number, first insertion, last insertion, and last removal dates.
+2. Can process live system hive (requires admin privileges).
 
 # Limitations
 1. Development and tests were done on Windows 10 only, so it might not work with other Windows profiles.
