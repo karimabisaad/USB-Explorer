@@ -1,0 +1,11 @@
+c:\users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\bin\Debug\RegistryReader.exe.config
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\obj\Debug\RegistryReader.csprojResolveAssemblyReference.cache
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\bin\Debug\RegistryReader.exe
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\bin\Debug\RegistryReader.pdb
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\bin\Debug\Registry.dll
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\obj\Debug\RegistryReader.exe
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\obj\Debug\RegistryReader.pdb
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\bin\Debug\NLog.dll
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\bin\Debug\NFluent.dll
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\obj\Debug\RegistryReader.Main.resources
+C:\Users\kareem\documents\visual studio 2015\Projects\RegistryReader\RegistryReader\obj\Debug\RegistryReader.csproj.GenerateResource.Cache
