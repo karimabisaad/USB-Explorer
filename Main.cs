@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Windows.Forms;
 using Registry;
-
+using System.IO;
+using System;
+using System.Diagnostics;
 
 namespace RegistryReader
 {
@@ -18,17 +20,27 @@ namespace RegistryReader
         {
             InitializeComponent();
 
+            chkLive.CheckedChanged += ChkLive_CheckedChanged;
             btnStart.Click += BtnStart_Click;
         }
 
-        private void BtnStart_Click(object sender, System.EventArgs e)
+        private void ChkLive_CheckedChanged(object sender, EventArgs e)
         {
-            //string hivePath = @"C:\Users\kareem\Desktop\Registry\syshive";
+            txtPath.Enabled = !chkLive.Checked;
+        }
+
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
             string hivePath = GetHivePath();
+
+            if (hivePath == null)
+                return;
 
             _hive = new RegistryHiveOnDemand(hivePath);
 
             ParseUSBStor();
+
+            File.Delete(txtPath.Text);
         }
 
         public void ParseUSBStor()
@@ -105,6 +117,11 @@ namespace RegistryReader
 
         private string GetHivePath()
         {
+            if (!txtPath.Enabled)
+            {
+                GetSystemHive();
+            }
+
             if (txtPath.Text != "")
                 return txtPath.Text;
 
@@ -121,5 +138,29 @@ namespace RegistryReader
             else return null;
         }
 
+        private void GetSystemHive()
+        {
+            string timestamp = DateTime.Now.Subtract(DateTime.MinValue).TotalSeconds.ToString();
+            string savePath = Path.Combine(Environment.CurrentDirectory, timestamp);
+
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/C reg save HKLM\\SYSTEM " + "\"" + savePath + "\"";
+                startInfo.Verb = "runas";
+
+                Process p = Process.Start(startInfo);
+
+                while (!p.HasExited);
+            }
+            catch
+            {
+                savePath = null;
+            }
+
+            txtPath.Text = savePath;
+        }
     }
 }
