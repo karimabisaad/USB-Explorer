@@ -32,8 +32,6 @@
             this.grid = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.btnStart = new System.Windows.Forms.Button();
-            this.txtPath = new System.Windows.Forms.TextBox();
-            this.chkLive = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +40,7 @@
             // 
             this.grid.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel.SetColumnSpan(this.grid, 3);
+            this.tableLayoutPanel.SetColumnSpan(this.grid, 2);
             this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grid.Location = new System.Drawing.Point(3, 45);
             this.grid.Name = "grid";
@@ -51,14 +49,11 @@
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.ColumnCount = 3;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.07643F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.92357F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.tableLayoutPanel.ColumnCount = 2;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
             this.tableLayoutPanel.Controls.Add(this.grid, 0, 1);
-            this.tableLayoutPanel.Controls.Add(this.txtPath, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.btnStart, 2, 0);
-            this.tableLayoutPanel.Controls.Add(this.chkLive, 1, 0);
+            this.tableLayoutPanel.Controls.Add(this.btnStart, 0, 0);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -75,35 +70,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(741, 3);
+            this.btnStart.Location = new System.Drawing.Point(3, 3);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(92, 36);
+            this.btnStart.Size = new System.Drawing.Size(77, 36);
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
-            // 
-            // txtPath
-            // 
-            this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPath.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPath.Location = new System.Drawing.Point(3, 3);
-            this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(615, 25);
-            this.txtPath.TabIndex = 2;
-            // 
-            // chkLive
-            // 
-            this.chkLive.AutoSize = true;
-            this.chkLive.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkLive.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkLive.Location = new System.Drawing.Point(624, 3);
-            this.chkLive.Name = "chkLive";
-            this.chkLive.Size = new System.Drawing.Size(98, 21);
-            this.chkLive.TabIndex = 3;
-            this.chkLive.Text = "Live System";
-            this.chkLive.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -116,7 +88,6 @@
             this.Text = "Main";
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -126,7 +97,5 @@
         private System.Windows.Forms.DataGridView grid;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TextBox txtPath;
-        private System.Windows.Forms.CheckBox chkLive;
     }
 }

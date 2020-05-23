@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Registry;
 using System.IO;
 using System;
-using System.Diagnostics;
 
 namespace RegistryReader
 {
@@ -13,34 +12,36 @@ namespace RegistryReader
         string USBSTOR = @"ROOT\ControlSet001\Enum\USBSTOR";
         string dateKey = "{83da6326-97a6-4088-9453-a1923f573b29}";
         string dateValue = "(default)";
+        string mountedDevices = @"ROOT\MountedDevices";
 
         private RegistryHiveOnDemand _hive;
+
+        private OptionSelector _options;
 
         public Main()
         {
             InitializeComponent();
 
-            chkLive.CheckedChanged += ChkLive_CheckedChanged;
-            btnStart.Click += BtnStart_Click;
-        }
+            _options = new OptionSelector();
 
-        private void ChkLive_CheckedChanged(object sender, EventArgs e)
-        {
-            txtPath.Enabled = !chkLive.Checked;
+            btnStart.Click += BtnStart_Click;
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            string hivePath = GetHivePath();
+            _options.ShowDialog();
 
-            if (hivePath == null)
+            string hivePath = _options.SystemHive;
+
+            if (hivePath == null || hivePath == "")
                 return;
 
             _hive = new RegistryHiveOnDemand(hivePath);
 
             ParseUSBStor();
 
-            File.Delete(txtPath.Text);
+            if (_options.LiveSystem)
+                File.Delete(_options.SystemHive);
         }
 
         public void ParseUSBStor()
@@ -63,7 +64,7 @@ namespace RegistryReader
 
                     dev.SetSerial(serial.KeyName);
                     dev.SetDescription(description);
-                    dev.FriendlyName = GetValue(serial.KeyPath, "FriendlyName");
+                    dev.FriendlyName = GetValueByKey(serial.KeyPath, "FriendlyName");
 
                     key = _hive.GetKey(serial.KeyPath + "\\Properties\\" + dateKey);
 
@@ -71,13 +72,28 @@ namespace RegistryReader
                     var lastInKey = key.SubKeys.FirstOrDefault(x => x.KeyName == "0066");
                     var lastRemKey = key.SubKeys.FirstOrDefault(x => x.KeyName == "0067");
 
-                    string firstIn = GetValue(firstInKey.KeyPath, dateValue);
-                    string lastIn = GetValue(lastInKey.KeyPath, dateValue);
-                    string lastRem = GetValue(lastRemKey.KeyPath, dateValue);
+                    string firstIn = GetValueByKey(firstInKey.KeyPath, dateValue);
+                    string lastIn = GetValueByKey(lastInKey.KeyPath, dateValue);
+                    string lastRem = GetValueByKey(lastRemKey.KeyPath, dateValue);
 
                     dev.SetFirstInsertion(firstIn);
                     dev.SetLastInsertion(lastIn);
                     dev.SetLastRemoval(lastRem);
+
+                    var mountedDevsEntries = GetKeysByValue(mountedDevices, serial.KeyName);
+
+                    // This list should contain 2 elements, one for the drive letter, another for the GUID
+                    foreach (string entry in mountedDevsEntries)
+                    {
+                        if (entry.StartsWith("\\??\\"))
+                        {
+                            dev.SetDeviceGUID(entry);
+                        }
+                        else
+                        {
+                            dev.SetDriveLetter(entry);
+                        }
+                    }
 
                     devices.Add(dev);
                 }
@@ -86,7 +102,7 @@ namespace RegistryReader
             SetGridSource(devices);
         }
 
-        private string GetValue(string keyPath, string valueName)
+        private string GetValueByKey(string keyPath, string valueName)
         {
             string result = null;
 
@@ -105,6 +121,29 @@ namespace RegistryReader
             return result;
         }
 
+        private List<string> GetKeysByValue(string keyPath, string valueData)
+        {
+            List<string> result = new List<string>();
+
+            Registry.Abstractions.RegistryKey key = _hive.GetKey(keyPath);
+
+            if (key != null)
+            {
+                foreach (var item in key.Values)
+                {
+                    string s = item.ValueType == "RegBinary" ?
+                        System.Text.Encoding.Unicode.GetString(item.ValueDataRaw) : item.ValueData;
+
+                    if (s.Contains(valueData))
+                    {
+                        result.Add(item.ValueName);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         private void SetGridSource(List<USBDevice> devices)
         {
             grid.DataSource = devices;
@@ -113,54 +152,6 @@ namespace RegistryReader
             grid.Font = new System.Drawing.Font("Consolas", 11F);
 
             grid.AutoResizeColumns();
-        }
-
-        private string GetHivePath()
-        {
-            if (!txtPath.Enabled)
-            {
-                GetSystemHive();
-            }
-
-            if (txtPath.Text != "")
-                return txtPath.Text;
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Open Hive File";
-            ofd.InitialDirectory = @"C:\";
-            ofd.Multiselect = false;
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                txtPath.Text = ofd.FileName;
-                return ofd.FileName;
-            }
-            else return null;
-        }
-
-        private void GetSystemHive()
-        {
-            string timestamp = DateTime.Now.Subtract(DateTime.MinValue).TotalSeconds.ToString();
-            string savePath = Path.Combine(Environment.CurrentDirectory, timestamp);
-
-            try
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C reg save HKLM\\SYSTEM " + "\"" + savePath + "\"";
-                startInfo.Verb = "runas";
-
-                Process p = Process.Start(startInfo);
-
-                while (!p.HasExited);
-            }
-            catch
-            {
-                savePath = null;
-            }
-
-            txtPath.Text = savePath;
         }
     }
 }

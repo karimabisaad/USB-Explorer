@@ -20,6 +20,8 @@ namespace RegistryReader
 
         public string Vendor { get; private set; }
         public string Product { get; private set; }
+        public string DriveLetter { get; private set; }
+        public string DeviceGUID { get; private set; }
 
         public void SetFirstInsertion(string firstInsertion)
         {
@@ -63,6 +65,30 @@ namespace RegistryReader
                 else
                 {
                     Serial = serial;
+                }
+            }
+        }
+        public void SetDriveLetter(string driveString)
+        {
+            if(driveString != null)
+            {
+                var split = driveString.Split('\\');
+
+                if(split.Length > 1)
+                {
+                    DriveLetter = split[split.Length - 1];
+                }
+            }
+        }
+        public void SetDeviceGUID(string guidString)
+        {
+            if(guidString != null)
+            {
+                var split = guidString.Split('{');
+
+                if(split.Length > 1)
+                {
+                    DeviceGUID = split[1].TrimEnd('}');
                 }
             }
         }
