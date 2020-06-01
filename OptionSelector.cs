@@ -31,10 +31,16 @@ namespace RegistryReader
 
                 txtPath.Text = path;
             }
+            else
+            {
+                txtPath.Clear();
+            }
         }
 
         private void BtnDone_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.OK;
+
             Close();
         }
 

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Registry;
 using System.IO;
 using System;
+using System.Text;
 
 namespace RegistryReader
 {
@@ -24,16 +25,28 @@ namespace RegistryReader
 
             _options = new OptionSelector();
 
+            btnStart.MaximumSize = btnStart.MinimumSize = btnStart.Size;
+            btnExport.MaximumSize = btnExport.MinimumSize = btnExport.Size;
+
             btnStart.Click += BtnStart_Click;
+            btnExport.Click += BtnExport_Click;
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            ExportGrid();
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            _options.ShowDialog();
+            DialogResult result = _options.ShowDialog();
+
+            if (result != DialogResult.OK)
+                return;
 
             string hivePath = _options.SystemHive;
 
-            if (hivePath == null || hivePath == "")
+            if (string.IsNullOrWhiteSpace(hivePath) || !File.Exists(hivePath))
                 return;
 
             _hive = new RegistryHiveOnDemand(hivePath);
@@ -41,7 +54,16 @@ namespace RegistryReader
             ParseUSBStor();
 
             if (_options.LiveSystem)
-                File.Delete(_options.SystemHive);
+            {
+                try
+                {
+                    File.Delete(_options.SystemHive);
+                }
+                catch
+                {
+                    MessageBox.Show("Error deleting temp hive at " + hivePath);
+                }
+            }
         }
 
         public void ParseUSBStor()
@@ -153,5 +175,39 @@ namespace RegistryReader
 
             grid.AutoResizeColumns();
         }
+
+        private void ExportGrid()
+        {
+            if(grid.DataSource == null)
+            {
+                return;
+            }
+
+            var sb = new StringBuilder();
+
+            var headers = grid.Columns.Cast<DataGridViewColumn>();
+
+            sb.AppendLine(string.Join(",", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
+
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                var cells = row.Cells.Cast<DataGridViewCell>();
+                sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
+            }
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = @"C:\";      
+            saveFileDialog1.Title = "Export CSV";
+            saveFileDialog1.DefaultExt = "csv";
+            saveFileDialog1.Filter = "CSV files (*.csv)|All files (*.*)";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(saveFileDialog1.FileName, sb.ToString());
+            }
+        }
+
     }
 }

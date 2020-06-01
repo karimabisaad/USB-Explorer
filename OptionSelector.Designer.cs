@@ -31,9 +31,6 @@
             this.txtPath = new System.Windows.Forms.TextBox();
             this.lblSysHive = new System.Windows.Forms.Label();
             this.btnSys = new System.Windows.Forms.Button();
-            this.btnNtuser = new System.Windows.Forms.Button();
-            this.lblNtuser = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.chkLive = new System.Windows.Forms.CheckBox();
             this.btnDone = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -58,6 +55,7 @@
             // 
             // btnSys
             // 
+            this.btnSys.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSys.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSys.Location = new System.Drawing.Point(385, 34);
             this.btnSys.Name = "btnSys";
@@ -66,39 +64,11 @@
             this.btnSys.Text = "Browse";
             this.btnSys.UseVisualStyleBackColor = true;
             // 
-            // btnNtuser
-            // 
-            this.btnNtuser.Location = new System.Drawing.Point(385, 99);
-            this.btnNtuser.Name = "btnNtuser";
-            this.btnNtuser.Size = new System.Drawing.Size(75, 23);
-            this.btnNtuser.TabIndex = 5;
-            this.btnNtuser.Text = "Browse";
-            this.btnNtuser.UseVisualStyleBackColor = true;
-            this.btnNtuser.Visible = false;
-            // 
-            // lblNtuser
-            // 
-            this.lblNtuser.AutoSize = true;
-            this.lblNtuser.Location = new System.Drawing.Point(12, 104);
-            this.lblNtuser.Name = "lblNtuser";
-            this.lblNtuser.Size = new System.Drawing.Size(44, 13);
-            this.lblNtuser.TabIndex = 4;
-            this.lblNtuser.Text = "NTUser";
-            this.lblNtuser.Visible = false;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(101, 101);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(253, 20);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.Visible = false;
-            // 
             // chkLive
             // 
             this.chkLive.AutoSize = true;
             this.chkLive.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkLive.Location = new System.Drawing.Point(15, 158);
+            this.chkLive.Location = new System.Drawing.Point(15, 123);
             this.chkLive.Name = "chkLive";
             this.chkLive.Size = new System.Drawing.Size(306, 21);
             this.chkLive.TabIndex = 6;
@@ -107,8 +77,9 @@
             // 
             // btnDone
             // 
+            this.btnDone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDone.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDone.Location = new System.Drawing.Point(385, 188);
+            this.btnDone.Location = new System.Drawing.Point(385, 156);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 31);
             this.btnDone.TabIndex = 7;
@@ -119,12 +90,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(472, 231);
+            this.ClientSize = new System.Drawing.Size(472, 199);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.chkLive);
-            this.Controls.Add(this.btnNtuser);
-            this.Controls.Add(this.lblNtuser);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.btnSys);
             this.Controls.Add(this.lblSysHive);
             this.Controls.Add(this.txtPath);
@@ -145,9 +113,6 @@
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.Label lblSysHive;
         private System.Windows.Forms.Button btnSys;
-        private System.Windows.Forms.Button btnNtuser;
-        private System.Windows.Forms.Label lblNtuser;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.CheckBox chkLive;
         private System.Windows.Forms.Button btnDone;
     }

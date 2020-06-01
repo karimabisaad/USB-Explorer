@@ -4,6 +4,8 @@ A tool that reads data stored under USBSTOR key in the system registry hive, rep
 # Features
 1. Provides serial number, first insertion, last insertion, and last removal dates.
 2. Can process live system hive (requires admin privileges).
+3. Provides GUID, which can be used to identify the user if it was found in the user's NTUser.dat file.
+4. Export to CSV.
 
 # Limitations
 1. Development and tests were done on Windows 10 only, so it might not work with other Windows profiles.
